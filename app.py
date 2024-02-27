@@ -23,17 +23,22 @@ def predict_intent(text):
     return predicted_class
 
 # Function to get response based on predicted intent
-def get_response(intent_idx):
-    intent_tag = intents['intents'][intent_idx]['tag']
-    responses = intents['intents'][intent_idx]['responses']
-    return random.choice(responses)
+def get_response(intent_tag):
+    for intent in intents['intents']:
+        if intent['tag'] == intent_tag:
+            responses = intent['responses']
+            return random.choice(responses)
+    return "Sorry, I didn't understand that."
 
 # Function to handle user input and get chatbot response
 def chatbot_response(user_input):
     # Preprocess user input
     user_input = user_input.strip().lower()  # Remove leading/trailing spaces and convert to lowercase
+    # Predict intent
     intent_idx = predict_intent(user_input)
-    response = get_response(intent_idx)
+    intent_tag = intents['intents'][intent_idx]['tag']
+    # Get response based on intent
+    response = get_response(intent_tag)
     return response
 
 # Streamlit app
@@ -42,4 +47,4 @@ st.title("e-commerce Chatbot")
 user_input = st.text_input("You: ")
 if st.button("Send"):
     response = chatbot_response(user_input)
-    st.text_area("Chatbot:", value=response, height=100)
+    st.text_area("Chatbot:", value=response, height=100)  
