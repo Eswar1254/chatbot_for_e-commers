@@ -5,7 +5,7 @@ import torch
 from transformers import BertTokenizer, BertForSequenceClassification
 
 # Load intents and BERT model
-intents = json.loads(open('intents.json').read())
+intents = json.loads(open('intents (1).json').read())
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 model = BertForSequenceClassification.from_pretrained('bert-base-uncased', num_labels=len(intents['intents']))
 
